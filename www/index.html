@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <script src="lib/ng-cordova.js"></script>
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+    <script src="js/vhv.js"></script>
+  </head>
+  <body ng-app="starter">
+
+    <ion-pane ng-controller="VhvCtrl">
+      <ion-header-bar class="bar-positive" align-title="left">
+        <h1 class="title">รายชื่อ อสม.</h1>
+        <button class="button icon ion-ios-compose" ng-click="openModal()"></button>
+      </ion-header-bar>
+      <ion-content class="has-header">
+        <div class="list">
+          <div class="list list-inset">
+            <label class="item item-input">
+              <i class="icon ion-search placeholder-icon"></i>
+              <input type="text" placeholder="Search" ng-model="query">
+            </label>
+          </div>
+        </div>
+        <div class="list card">
+          <a class="item item-icon-left item-icon-right" ng-click="info(vhv)" ng-repeat="vhv in vhvs
+          | filter: query">
+            <i class="icon ion-ios-person positive"></i>
+            {{ vhv.fullname }}
+            <i class="icon ion-ios-arrow-right assertive"></i>
+          </a>
+        </div>
+      </ion-content>
+
+      <script id="new-modal.html" type="text/ng-template">
+        <ion-modal-view>
+          <ion-header-bar class="bar bar-header bar-positive">
+          <h1 class="title">Village Health Volunteer</h1>
+          <button class="button button-clear button-primary" ng-click="modal.hide()">ยกเลิก</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+          <div class="list">
+            <label class="item item-input">
+              <span class="input-label">ชื่อ - สกุล</span>
+              <input ng-model="newVhv.fullname" type="text">
+            </label>
+            <label class="item item-input">
+              <span class="input-label">เบอร์โทรศัพท์</span>
+              <input ng-model="newVhv.telephone" type="tel">
+            </label>
+            <label class="item item-input item-select">
+              <span class="input-label">
+                หมู่บ้าน
+              </span>
+              <select ng-model="newVhv.village_id" ng-options="v.village_id as v.village_name for v in villages">
+              </select>
+            </label>
+            <button class="button button-full button-positive" ng-click="saveVhv(newVhv)">
+              บันทึก
+            </button>
+          </div>
+        </ion-content>
+        </ion-modal-view>
+      </script>
+
+      <script id="info-modal.html" type="text/ng-template">
+        <ion-modal-view>
+          <ion-header-bar align-title="center" class="bar bar-header bar-positive">
+          <h1 class="title">แก้ไขข้อมูล</h1>
+          <button class="button button-icon icon ion-ios-close" ng-click="modalInfo.hide()"></button>
+          <button class="button button-icon icon ion-ios-trash" ng-click="remove(infoVhv.vhv_id)"></button>
+        </ion-header-bar>
+        <ion-content class="padding">
+          <div class="list">
+            <label class="item item-input">
+              <span class="input-label">ชื่อ - สกุล</span>
+              <input ng-model="infoVhv.fullname" type="text">
+            </label>
+            <label class="item item-input">
+              <span class="input-label">เบอร์โทรศัพท์</span>
+              <input ng-model="infoVhv.telephone" type="tel">
+            </label>
+            <label class="item item-input item-select">
+              <span class="input-label">
+                หมู่บ้าน
+              </span>
+              <select ng-model="infoVhv.village_id" ng-options="v.village_id as v.village_name for v in villages">
+              </select>
+            </label>
+
+          </div>
+
+          <div class="button-bar">
+            <a class="button button-positive" ng-click="update(infoVhv)">บันทึก</a>
+            <a class="button button-balanced" ng-href="tel:{{v.telephone}}">โทรหา...</a>
+          </div>
+
+        </ion-content>
+        </ion-modal-view>
+      </script>
+
+    </ion-pane>
+
+
+  </body>
+</html>
